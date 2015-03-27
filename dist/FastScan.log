@@ -1,0 +1,9 @@
+Exception in Tkinter callback
+Traceback (most recent call last):
+  File "C:\Python34\Lib\tkinter\__init__.py", line 1482, in __call__
+    return self.func(*args)
+  File "main.pyw", line 200, in <lambda>
+  File "main.pyw", line 45, in ScanOnePage
+  File "F:\MAXIM_work\fast_scan\project\mylib.py", line 67, in getImageFromScanner
+    os.remove(tmp_file)
+PermissionError: [WinError 32] Процесс не может получить доступ к файлу, так как этот файл занят другим процессом: 'F:\\MAXIM_work\\fast_scan\\tmp_scan\\1416396433.jpg'
