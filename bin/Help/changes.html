@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>CmdTwain Help - Changes</title>
+<link rel="stylesheet" type="text/css" href="css/help.css">
+</head>
+<body>
+<div id="main">
+
+<h1>Changes</h1>
+<hr />
+
+<h2>Ver 1.05, 10 Nov 2013</h2>
+<p>Ignores any parameters which start with /sti. Windows adds two "/sti..."
+   parameters if you run CmdTwain from the scanner button.</p>
+
+<h2>Ver 1.04, 28 Jul 2013</h2>
+<p>Added "/IN" "/CM" and "/WH w.w h.h" options.</p>
+<p>Default install directory is now "C:\Program Files\GssEziSoft\CmdTwain".</p>
+
+<h2>Ver 1.03, 29 May 2013</h2>
+<p>The program runs in Win32 GUI mode again. This prevents an empty black window
+   (Win32 console mode) appearing when the program runs.</p>
+   
+<h2>Ver 1.02, 10 Feb 2013</h2>
+<p>This was an update to Ver 1.01 to get the DPI settings to "take". It involved
+   a rewrite using MS Visual C++ 2010 and a more modern library (FreeImage).
+   Earlier versions used Borland C++ and a very old version of the Intel JPEG
+   library. CmdTwain now runs two subprograms.</p>
+<p>The DPI setting is written to the file for both BMP and JPG formats.</p>
+<p>"CmdTwain.exe /SOURCE" allows you to choose which TWAIN device to use.</p>
+<p>The default install directory was "C:\Program Files\GssEziSoft\CmdTwain Free".</p>
+<p>GssScan.bat is included.</p>
+<p>Options are case insensitive.</p>
+
+<h2>Ver 1.01, 19 Jan 2013, NOT RELEASED</h2>
+<p>The DPI setting should have been written to the file for both BMP and JPG
+   formats but the library used ignored the setting.</p>
+<p>"CmdTwain.exe /SOURCE" allowed you to choose which TWAIN device to use.</p>
+<p>As this was an update to Ver 0.03, options needed to be uppercase.</p>
+
+<h2>Ver 1.00, 27 May 2009, NOT RELEASED</h2>
+<p>This was an experimental version which was not released.</p>
+<p>Options no longer needed to be specified in uppercase.</p>
+<p>You could split the output path and filename into two separate parameters.
+   This was useful for some programs.</p>
+<p>The program supported quoted arguments. This is mainly useful for paths
+   with spaces in them. e.g. "C:\Documents and Settings\...".</p>
+<p>The GssScan.bat program was no longer needed (nor provided).</p>
+<p>It supported autonumbering scans.</p>
+<p>It included experimental support for document feeders. This feature was never
+   tested.</p>
+
+<h2>Ver 0.03, 14 Jan 2009</h2>
+<p>This was supplied as an NSIS installer package. The default install
+   directory was "C:\Program Files\Gss EziSoft\CmdTwain Free".</p>
+
+<h2>Ver 0.02, 19 Nov 2007</h2>
+<p>This was supplied as a ZIP file or as a self extracting archive. The
+   self-extractor included an install.vbs file which simplified installation.
+   Like its predecessor, it installed into "C:\Program Files\GssSoftware\CmdTwain"
+   and included GssScan.bat in the "C:\Windows" directory.</p>
+
+<h2>Ver 0.01, 29 Sep 2007</h2>
+<p>This was a ZIP file. It installed into "C:\Program Files\GssSoftware\CmdTwain".
+   It also provided GssScan.bat for the "C:\Windows" directory.</p>
+
+<br>
+<hr />
+
+  <p>&nbsp;</p>
+  <p style="text-align:center">
+  <a href="acknowledgements.html"><img src="images/left.png"  alt="back"></a>&nbsp;
+  <a href="contents.html"        >contents</a>&nbsp;
+  <a href="contents.html"        ><img src="images/right.png" alt="next"></a>
+  </p>
+
+  <br />
+  <br />
+  <p class="small">&copy; 2007-2013 GssEziSoft.com. All Rights Reserved.</p>
+
+</div>
+</body>
+</html>
