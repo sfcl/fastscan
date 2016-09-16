@@ -15,7 +15,7 @@ from mylib import setWindowCenter
 from mywrapperpdflib import PdfMerge
 
 # версия программы
-Version = '0.1.7'
+Version = '0.2.0'
 
 
 # производим нормализацию файловых путей
@@ -30,7 +30,7 @@ def ScanOnePage(file_name = None):
         file_name = int(time.time())
         file_name = str(file_name)
     
-    parametrs = {'color' : '', 'rezolution' : ''}
+    parametrs = {'color': '', 'rezolution': '', 'adf': ''}
     if colorQuestion.get() == 1:
         parametrs['color'] = 'GRAY'
     if colorQuestion.get() == 2:
@@ -39,9 +39,11 @@ def ScanOnePage(file_name = None):
         parametrs['rezolution'] = '300'
     if rezQuestion.get() == 2:
         parametrs['rezolution'] = '600'
-    
-    #print(parametrs)
-    #print(file_name)
+    if adf.get() == 1:
+        parametrs['adf'] = True
+    if adf.get() == 0:
+        parametrs['adf'] = False
+
     getImageFromScanner(file_name, temp_folder, one_file_folder, multiple_file_folder, parametrs)
     #if  colorQuestion.get() != '1':
     #    getImageFromScanner(file_name, temp_folder, one_file_folder, multiple_file_folder, color)
@@ -87,7 +89,7 @@ class MyDialog:
         self.tempList = list()
         top = self.top = tk.Toplevel(parent, relief=tk.SUNKEN)
         setWindowCenter(self.top)
-        self.top.geometry("400x100")
+        self.top.geometry("420x120")
         #print dir(self.top)
         #self.top.overrideredirect(True)
         self.top.protocol("WM_DELETE_WINDOW", self._quit) 
@@ -98,7 +100,7 @@ class MyDialog:
         self.button1_2 = tk.Button(top, padx=5, pady=5, bd=4, text='Завершить сканирование',command=self.stopScan)
         self.button1_2.grid(row=0, column=1)
         
-        self.parametrs = {'color' : '', 'rezolution' : ''}
+        self.parametrs = {'color' :'', 'rezolution': '', 'adf': ''}
         if colorQuestion.get() == 1:
             self.parametrs['color'] = 'GRAY'
         if colorQuestion.get() == 2:
@@ -107,7 +109,11 @@ class MyDialog:
             self.parametrs['rezolution'] = '300'
         if rezQuestion.get() == 2:
             self.parametrs['rezolution'] = '600'
-        
+        if adf.get() == 0:
+            self.parametrs['adf'] = False
+        if adf.get() == 1:
+            self.parametrs['adf'] = True
+
         self.labelframe2 = tk.LabelFrame(top, text='Параметры сканирования')
         self.labelframe2.grid(row=1, column=0)
         
@@ -123,20 +129,10 @@ class MyDialog:
         self.file_name = str(self.file_name)
         self.tempList.append(self.file_name)
         ScanOnePage(self.file_name)
-        # self.parametrs = {'color' : '', 'rezolution' : ''}
-        # if colorQuestion.get() == 1:
-            # self.parametrs['color'] = 'GRAY'
-        # if colorQuestion.get() == 2:
-            # self.parametrs['color'] = 'RGB'
-        # if rezQuestion.get() == 1:
-            # self.parametrs['rezolution'] = '300'
-        # if rezQuestion.get() == 2:
-            # self.parametrs['rezolution'] = '600'
-        # getImageFromScanner(self.file_name, temp_folder, one_file_folder, multiple_file_folder, self.parametrs)
+
 
     def stopScan(self):
         PdfMerge(self.tempList, one_file_folder, multiple_file_folder)
-        #print(self.tempList)
         self.root.update()
         self.root.deiconify()
         
@@ -157,7 +153,7 @@ def createNewWindow():
 
 def showMsgBox():
     
-    mb = msgBox(root, 'Автор программы: Хозяинов Максим\nПочта: mx@upr89.ru\nВерсия:' + ' ' + Version)
+    mb = msgBox(root, 'Автор программы: Хозяинов Максим\nПочта: sfcl@mail.ru\nВерсия:' + ' ' + Version)
     root.wait_window(mb.top)
     
     
@@ -177,19 +173,6 @@ if temp_folder == 'none' or one_file_folder == 'none' or multiple_file_folder ==
     txt = 'Вы не настроили каталоги в файле config.ini'
     errorMsqBox(root, txt)
     #sys.exit(1)
-
-#if one_file_folder == 'none':
-    #txt = 'Вы не настроили каталог для одностраничных Pdf в файле config.ini'
-    #errorMsqBox(root, txt)
-    #sys.exit(1)
-    
-#if multiple_file_folder == 'none':
-    #txt = 'Вы не настроили каталог для многостраничных Pdf в файле config.ini'
-    #errorMsqBox(root, txt)
-    # sys.exit(1)
-
-    #frame = tk.Frame(root)
-#frame.pack()
 
 
 button1 = tk.Button(root, padx=5, pady=5, bd=4, text='Многостраничное\nсканирование', command=(lambda : createNewWindow()))
@@ -212,6 +195,8 @@ colorQuestion.set("1")
 rezQuestion = tk.IntVar()
 rezQuestion.set("1")
 
+adf = tk.IntVar()
+adf.set('0')
 # фрейм определяющий цветность
 labelframe = tk.LabelFrame(root, text='Цветность сканирования')
 #labelframe.pack(side='left')
@@ -224,7 +209,6 @@ radioButton1.pack(side='bottom')
 
 # фрейм определяющий разрешение сканирования
 labelframe2 = tk.LabelFrame(root, text='Разрешение сканирования')
-#labelframe2.pack(side='left')
 labelframe2.grid(row=1, column=1)
 
 radioButton3 = tk.Radiobutton(labelframe2, text = "300 dpi", variable=rezQuestion, value="1")
@@ -232,10 +216,18 @@ radioButton4 = tk.Radiobutton(labelframe2, text = "600 dpi", variable=rezQuestio
 radioButton4.pack(side='bottom')
 radioButton3.pack(side='bottom')
 
+# фрейм определяющий использовать ли ADF
+labelframe3 = tk.LabelFrame(root, text='ADF')
+labelframe3.grid(row=1, column=2)
+
+radioButton5 = tk.Radiobutton(labelframe3, text = 'Нет', variable=adf, value="0")
+radioButton6 = tk.Radiobutton(labelframe3, text = 'Да', variable=adf, value="1")
+radioButton6.pack(side='bottom')
+radioButton5.pack(side='bottom')
+
+
 
 root.title('Помощник в сканировании')
-root.geometry("320x120")
-#root.maxsize(300,150)
-#root.minsize(300,150)
+root.geometry("360x120")
 root.mainloop()
 

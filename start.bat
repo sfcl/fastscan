@@ -1,2 +1,2 @@
 @echo off
-python main.py > nul
+python main.pyw > nul

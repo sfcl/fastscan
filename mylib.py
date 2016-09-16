@@ -5,7 +5,6 @@ import ntpath
 import subprocess
 import os
 import tkinter as tk
-#import pyx
 from PIL import Image
 
 # TODO добавить корректное преобразование Русских символов
@@ -25,24 +24,22 @@ def convertToDosPath(prepare_str):
 def getImageFromScanner(tmp_file_name, temp_folder, one_file_folder, multiple_file_folder, params):
     # Получаем место расположения скрипта
     # ~~~~~
-    #base_path = os.path.dirname(os.path.realpath(__file__)) 
-    #exec_path = base_path  + '.\\bin'
     exec_path = '.\\bin'
     #command_line_exec =  exec_path + '\\' + 'CmdTwain' + ' /PAPER=A4 /%s /DPI=%s /JPG75 ' + temp_folder + '\\' + tmp_file_name + '.jpg'
-    command_line_exec =  exec_path + '\\' + 'ScanBmp' + ' /PAPER=A4 /%s /DPI=%s ' + temp_folder + '\\' + tmp_file_name + '.jpg'
-    command_line_exec = command_line_exec % (params['color'], params['rezolution'],)
-    #print(command_line_exec)
+    if params['adf']:
+        command_line_exec =  exec_path + '\\' + 'ScanBmp' + ' /PAPER=A4 /%s /DPI=%s /S=%s val ' + '"' + temp_folder + '\\' + tmp_file_name + '.jpg' + '"'
+        command_line_exec = command_line_exec % (params['color'], params['rezolution'], 'ADF')
+    else:
+        command_line_exec =  exec_path + '\\' + 'ScanBmp' + ' /PAPER=A4 /%s /DPI=%s ' + '"' + temp_folder + '\\' + tmp_file_name + '.jpg' + '"'
+        command_line_exec = command_line_exec % (params['color'], params['rezolution'])
+    
+    print('command_line_exec=', command_line_exec)
     #if color == '1':
     #    command_line_exec =  exec_path + '\\' + 'CmdTwain' + ' /PAPER=A4 /RGB /DPI=300 /JPG75 ' + temp_folder + '\\' + tmp_file_name + '.jpg'
     #else:
     #    command_line_exec =  exec_path + '\\' + 'CmdTwain' + ' /PAPER=A4 /GRAY /DPI=300 /JPG75 ' + temp_folder + '\\' + tmp_file_name + '.jpg'
     
-    #if color == '1': 
-        # выполняем сканирование через командную строку через программу IrfanView
-    #    command_line_exec =  exec_path + '\\' + 'i_view32' + ' /scanhidden /dpi=(300,300) /gray /convert=' + temp_folder + '\\' + tmp_file_name + '.jpg'
-    #if color == '2':
-    #    command_line_exec =  exec_path + '\\' + 'i_view32' + ' /scanhidden /dpi=(300,300) /convert=' + temp_folder + '\\' + tmp_file_name + '.jpg'
-    
+
     si = subprocess.STARTUPINFO()
     si.dwFlags |= subprocess.SW_HIDE
     subprocess.call(command_line_exec, startupinfo=si)
@@ -60,21 +57,13 @@ def getImageFromScanner(tmp_file_name, temp_folder, one_file_folder, multiple_fi
     #os.system(command_line_exec2)
     tmp_file = temp_folder + '\\' + tmp_file_name + '.jpg'
     if os.path.exists(tmp_file):
-        
         output_file = one_file_folder + '\\' + tmp_file_name + '.pdf'
-        im = Image.open(tmp_file)
-        im.save(output_file, 'PDF')
-        os.remove(tmp_file)
-    #i = pyx.bitmap.jpegimage(tmp_file)
-    #c = pyx.canvas.canvas()
-    #c.insert(pyx.bitmap.bitmap(0, 0, i, compressmode=None))
-    #c.writePDFfile(output_file)
-    # подчищаем за собой каталог tmp (делаем это тихо)
-    #command_line_exec3 = 'del /f /s /q ' + temp_folder + '\*.jpg' + ' > nul'
-    #os.popen(command_line_exec3)
-    #tmpFilename = temp_folder + '\\' + tmp_file_name + '.jpg'
-    
-    #print (command_line_exec3)
+        with Image.open(tmp_file) as im:
+            im.save(output_file, 'PDF')
+        try:
+            os.remove(tmp_file)
+        except:
+            pass
     
 
 def setWindowCenter(rootObj):
