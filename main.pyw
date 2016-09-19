@@ -15,7 +15,7 @@ from mylib import setWindowCenter
 from mywrapperpdflib import PdfMerge
 
 # версия программы
-Version = '0.2.3'
+Version = '0.2.4'
 
 
 # производим нормализацию файловых путей

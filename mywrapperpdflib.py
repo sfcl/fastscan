@@ -9,6 +9,12 @@ import time
 
 
 def PdfMerge(filenames, onFFolder, mulFFolder):
+    """Склеиватель нескольких файлов раздельных файлов pdf в один
+       filenames - список имён файлов БЕЗ путей до них и расширений
+       onFFolder - каталог для одностраничных pdf файлов
+       mulFFolder - каталог для многостраничных pdf файлов
+
+    """
     if len(filenames) == 0:
         return 
         
