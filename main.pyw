@@ -15,7 +15,7 @@ from mylib import setWindowCenter
 from mywrapperpdflib import PdfMerge
 
 # версия программы
-Version = '0.2.0'
+Version = '0.2.3'
 
 
 # производим нормализацию файловых путей
@@ -24,7 +24,7 @@ Version = '0.2.0'
 # multiple_file_folder = os.path.abspath(multiple_file_folder)
 
 
-def ScanOnePage(file_name = None):
+def ScanOnePage(file_name = None, adf=False):
     # имя файла выбираем исходя из тайм штампа
     if file_name is None:
         file_name = int(time.time())
@@ -39,11 +39,9 @@ def ScanOnePage(file_name = None):
         parametrs['rezolution'] = '300'
     if rezQuestion.get() == 2:
         parametrs['rezolution'] = '600'
-    if adf.get() == 1:
-        parametrs['adf'] = True
-    if adf.get() == 0:
-        parametrs['adf'] = False
-
+    
+    parametrs['adf'] = adf
+    
     getImageFromScanner(file_name, temp_folder, one_file_folder, multiple_file_folder, parametrs)
     #if  colorQuestion.get() != '1':
     #    getImageFromScanner(file_name, temp_folder, one_file_folder, multiple_file_folder, color)
@@ -89,7 +87,7 @@ class MyDialog:
         self.tempList = list()
         top = self.top = tk.Toplevel(parent, relief=tk.SUNKEN)
         setWindowCenter(self.top)
-        self.top.geometry("420x120")
+        self.top.geometry("440x120")
         #print dir(self.top)
         #self.top.overrideredirect(True)
         self.top.protocol("WM_DELETE_WINDOW", self._quit) 
@@ -180,14 +178,13 @@ button1.grid(row=0, column=0)
 #button1.pack(side="left")
 
 
-button2 = tk.Button(root, padx=5, pady=5, bd=4, text='Одностраничное\nсканирование', command=(lambda : ScanOnePage()))
+button2 = tk.Button(root, padx=5, pady=5, bd=4, text='Одностраничное\nсканирование', command=(lambda : ScanOnePage(adf=False)))
 button2.grid(row=0, column=1)
 #button2.pack(side="left")
 
-button_help = tk.Button(root, text='?', command=(lambda : showMsgBox()))
-#button_help.pack(side="bottom", fill='', expand=False, padx=4, pady=4)
-#button_help.pack(side="right")
-button_help.grid(row=0, column=2)
+button3 = tk.Button(root, padx=5, pady=5, bd=4, text='АПД', command=(lambda : ScanOnePage(adf=True)))
+button3.grid(row=0, column=2)
+
 
 colorQuestion = tk.IntVar()
 colorQuestion.set("1")
@@ -216,15 +213,15 @@ radioButton4 = tk.Radiobutton(labelframe2, text = "600 dpi", variable=rezQuestio
 radioButton4.pack(side='bottom')
 radioButton3.pack(side='bottom')
 
-# фрейм определяющий использовать ли ADF
-labelframe3 = tk.LabelFrame(root, text='ADF')
+
+
+# фрейм определяющий кнопку для вызова справки
+labelframe3 = tk.LabelFrame(root, text='')
 labelframe3.grid(row=1, column=2)
-
-radioButton5 = tk.Radiobutton(labelframe3, text = 'Нет', variable=adf, value="0")
-radioButton6 = tk.Radiobutton(labelframe3, text = 'Да', variable=adf, value="1")
-radioButton6.pack(side='bottom')
-radioButton5.pack(side='bottom')
-
+button_help = tk.Button(labelframe3, text='?', command=(lambda : showMsgBox()))
+#button_help.pack(side="bottom", fill='', expand=False, padx=4, pady=4)
+#button_help.pack(side="right")
+button_help.pack(side='bottom')
 
 
 root.title('Помощник в сканировании')
