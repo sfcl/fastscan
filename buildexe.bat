@@ -1,6 +1,6 @@
 @echo off
 
-remdel /f /s /q .\dist\*
+del /f /s /q .\dist\*
 
 del /f /s /q .\__pycache__\*
 python setup.py py2exe
